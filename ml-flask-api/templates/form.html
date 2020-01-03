@@ -1,0 +1,81 @@
+<!doctype html>
+<html>
+   <head>
+      <style>
+         body {
+            font-family: Tahoma, Verdana, Arial;
+            font-size: 14px;
+         }
+
+      </style>
+      <title>KNN Model API</title>
+   </head>
+
+   <script>
+
+      function predict() {
+         sl = document.getElementById("sl").value;
+         sw = document.getElementById("sw").value;
+         pl = document.getElementById("pl").value;
+         pw = document.getElementById("pw").value;
+
+         var xhr = new XMLHttpRequest();
+         xhr.open('GET', "/predict?sl="+sl+"&sw="+sw+"&pl="+pl+"&pw="+pw);
+         xhr.onload = function () {
+             // do something to response
+             var obj = JSON.parse(this.responseText);
+             console.log(obj);
+             document.getElementById("result").textContent = obj.message;
+         };
+         xhr.send();
+      }
+
+   </script>
+
+   <body>
+
+      <h1>Predict species</h1>
+      <form>
+         <table border="0" cellpadding="5" width="400">
+            <tr>
+               <td>
+                  Sepal length
+               </td>
+               <td>
+                  <input type="text" size="10" id="sl" value="5.1" />
+               </td>
+            </tr>
+            <tr>
+               <td>
+                  Sepal width
+               </td>
+               <td>
+                  <input type="text" size="10" id="sw" value="3.5" />
+               </td>
+            </tr>
+            <tr>
+               <td>
+                  Petal length
+               </td>
+               <td>
+                  <input type="text" size="10" id="pl" value="1.4" />
+               </td>
+            </tr>
+            <tr>
+               <td>
+                  Petal width
+               </td>
+               <td>
+                  <input type="text" size="10" id="pw" value="0.2" />
+               </td>
+            </tr>
+            <tr>
+               <td colspan="2"><span style="color:blue;" id="result"></span></>
+            </tr>
+            <tr>
+               <td></td><td><input type="button" value="Predict" onclick="predict();" /></td>
+            </tr>
+         </table>
+      </form>
+   </body>
+</html>

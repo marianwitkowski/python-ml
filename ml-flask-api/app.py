@@ -1,21 +1,24 @@
 
-from flask import Flask, request, Response
+from flask import Flask, request, Response, render_template
 from sklearn.externals import joblib
 import pandas as pd
 import json
 import os
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
+
+# load saved model from file
 model = joblib.load(os.path.join(dir_path, "knn.model"))
 
 app = Flask(__name__)
 
 """
-    test request
+    render form template
 """
 @app.route("/")
 def hello():
-    return "ML API Test"
+    return render_template("form.html")
+
 
 """
     put params in GET request query 
@@ -26,7 +29,7 @@ def hello():
     
     request example: http://127.0.0.1:5000/predict?sl=5.1&sw=3.5&pl=1.4&pw=0.15
 """
-@app.route("/predict")
+@app.route("/predict" , methods=['GET'])
 def predict():
     try:
         sl = float( request.args.get('sl', 0) )
@@ -48,7 +51,7 @@ def predict():
         else:
             result = "uknown species"
 
-        response =  { "code" : 0, "result" : result }
+        response =  { "code" : 0, "message" : result }
         return Response(json.dumps(response), mimetype='application/json')
 
     except Exception as exc:
