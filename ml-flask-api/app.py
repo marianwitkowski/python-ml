@@ -1,3 +1,9 @@
+"""
+ Serving KNN model as Web API service with Python Flask
+ 
+ Marian Witkowski
+ https://www.linkedin.com/in/marianwitkowski/
+"""
 
 from flask import Flask, request, Response, render_template
 from sklearn.externals import joblib
